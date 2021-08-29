@@ -1,0 +1,7 @@
+{
+    "require": {
+        "doctrine/orm": "^2.9",
+        "irap/autoloader": "^2.0",
+        "symfony/cache": "^5.3"
+    }
+}
