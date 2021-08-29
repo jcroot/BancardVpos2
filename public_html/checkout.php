@@ -1,7 +1,6 @@
 <?php
 include('header.php');
 
-use Bancard\Operations\Buy\MultiBuy;
 use Bancard\Operations\Buy\SingleBuy;
 
 require_once(__DIR__ . '/../library/Bancard/autoload.php');
