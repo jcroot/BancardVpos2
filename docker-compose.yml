@@ -1,0 +1,39 @@
+version: '3.2'
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: cartdb
+      MYSQL_USER: sdkuser
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - 'volmysql:/var/lib/mysql'
+    networks:
+      - backend
+  php:
+    build: './php/'
+    networks:
+      - backend
+    volumes:
+      - '.:/var/www/html'
+  apache:
+    build: './apache/'
+    depends_on:
+      - php
+      - mysql
+    ports:
+      - "8080:80"
+    volumes:
+      - '.:/var/www/html'
+    networks:
+      - frontend
+      - backend
+volumes:
+  volmysql:
+    driver: local
+networks:
+  frontend:
+  backend:

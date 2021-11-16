@@ -51,12 +51,14 @@ class MultiBuy extends Request
      * @return MultiBuy
      *
      */
-    public static function init(array $data, $testmode = false)
+    public static function init(array $data )
     {
         # Instance.
         $self = new self;
         # Validate data.
         $self->validateData($data);
+
+        $testmode = (Config::get('APPLICATION_ENV') === 'staging');
 
         $public_key = ( $testmode ) ? Config::get('staging_public_key') : Config::get('production_public_key');
         $secret_key = ( $testmode ) ? Config::get('staging_private_key') : Config::get('production_private_key');

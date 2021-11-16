@@ -6,6 +6,9 @@ require_once(__DIR__ . '/vendor/autoload.php');
 use Doctrine\ORM\EntityManager;
 use iRAP\Autoloader\Autoloader;
 
+$dotenv = \Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 // set up an autoloader for loading classes that aren't in /vendor
 // $classDirs is an array of all folders to load from
 $classDirs = array(
@@ -27,9 +30,9 @@ function getEntityManager(): EntityManager
         # Make sure you have installed the php7.0-sqlite package.
         $connectionParams = array(
             'driver' => 'pdo_mysql',
-            'user' => 'root',
-            'password' => 'g3pboNMP',
-            'host' => '127.0.0.1',
+            'user' => 'sdkuser',
+            'password' => 'secret',
+            'host' => 'mysql',
             'port' => 3306,
             'dbname' => 'cartdb',
         );

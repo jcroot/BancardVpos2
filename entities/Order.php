@@ -54,6 +54,10 @@ class Order
      * @Column (type="string")
      */
     protected $type;
+    /**
+     * @OneToMany  (targetEntity="Transaction", mappedBy="order")
+     */
+    protected $transactions;
 
     /**
      * @param string $fullname
@@ -69,6 +73,7 @@ class Order
         $this->total = $total;
         $this->process_id = "";
         $this->type = $type;
+        $this->transactions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -141,5 +146,10 @@ class Order
     public function getPhone(): string
     {
         return $this->phone;
+    }
+
+    public function getTransactions()
+    {
+        return $this->transactions;
     }
 }

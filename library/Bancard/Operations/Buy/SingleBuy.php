@@ -46,8 +46,10 @@ class SingleBuy extends Request {
 		}
 	}
 
-	public static function init( array $data, $testmode = false ) {
+	public static function init( array $data ) {
 		$self = new self();
+
+        $testmode = (Config::get('APPLICATION_ENV') === 'staging');
 
 		$self->validateData( $data );
 

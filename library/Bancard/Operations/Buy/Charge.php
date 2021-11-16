@@ -4,6 +4,7 @@
 namespace Bancard\Operations\Buy;
 
 
+use Bancard\Core\Config;
 use Bancard\Core\Environments;
 use Bancard\Core\Request;
 use Bancard\Operations\Operations;
@@ -44,10 +45,16 @@ class Charge extends Request {
 		}
 	}
 
-	public static function init( array $data, $public_key, $secret_key, $testmode = false ) {
+	public static function init( array $data ) {
 		$self = new self();
 
 		$self->validateData( $data );
+
+        $testmode = (Config::get('APPLICATION_ENV') === 'staging');
+
+        $public_key = ( $testmode ) ? Config::get('staging_public_key') : Config::get('production_public_key');
+        $secret_key = ( $testmode ) ? Config::get('staging_private_key') : Config::get('production_private_key');
+
 		# Set Enviroment.
 		$environment = ( $testmode ) ? Environments::STAGING_URL : Environments::PRODUCTION_URL;
 		$self->factory( $environment, Operations::CHARGE );

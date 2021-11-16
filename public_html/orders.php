@@ -3,6 +3,12 @@ include ('header.php');
 
 $entityManager = getEntityManager();
 $entries = $entityManager->getRepository(Order::class)->findAll();
+
+function isPending(Order $order): bool
+{
+    $entries = $order->getTransactions();
+    return ($entries->getIterator()->count() == 0);
+}
 ?>
 
 <div class="card">
@@ -24,14 +30,25 @@ $entries = $entityManager->getRepository(Order::class)->findAll();
             <tbody>
                 <?php if (count($entries) > 0): ?>
                     <?php foreach ($entries as $entry):?>
-                        <tr>
-                            <td><?php echo $entry->getId() ?></td>
-                            <td class="w-25"><?php echo $entry->getFullname() ?></td>
-                            <td><?php echo $entry->getEmail() ?></td>
-                            <td><?php echo $entry->getTotal() ?></td>
-                            <td><a href="checkout.php?process_id=<?php echo $entry->getProcessId() ?>&type=<?php echo $entry->getType() ?>"><?php echo $entry->getProcessId() ?></a></td>
-                            <td><?php echo $entry->getType() ?></td>
-                        </tr>
+                        <?php if (isPending($entry)): ?>
+                            <tr>
+                                <td><?php echo $entry->getId() ?></td>
+                                <td class="w-25"><?php echo $entry->getFullname() ?></td>
+                                <td><?php echo $entry->getEmail() ?></td>
+                                <td><?php echo $entry->getTotal() ?></td>
+                                <td><a href="checkout.php?process_id=<?php echo $entry->getProcessId() ?>&type=<?php echo $entry->getType() ?>"><?php echo $entry->getProcessId() ?></a></td>
+                                <td><?php echo $entry->getType() ?></td>
+                            </tr>
+                        <?php else: ?>
+                            <tr>
+                                <td><?php echo $entry->getId() ?></td>
+                                <td class="w-25"><?php echo $entry->getFullname() ?></td>
+                                <td><?php echo $entry->getEmail() ?></td>
+                                <td><?php echo $entry->getTotal() ?></td>
+                                <td><?php echo $entry->getProcessId() ?></td>
+                                <td><?php echo $entry->getType() ?></td>
+                            </tr>
+                        <?php endif; ?>
                     <?php endforeach;?>
                 <?php else:?>
                     <tr>

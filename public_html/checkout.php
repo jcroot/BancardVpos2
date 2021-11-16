@@ -22,14 +22,18 @@ require_once(__DIR__ . '/../library/Bancard/autoload.php');
                     $entityManager->persist($order);
                     $entityManager->flush();
 
+                    // here you need to change for your own return_url and cancel_url
+                    $serverName =  $_SERVER['SERVER_NAME'];
+                    $port = $_SERVER['SERVER_PORT'];
+
                     $data = [
                         'shop_process_id' => $order->getId(),
                         'amount' => $amount,
                         'currency' => 'PYG',
                         'description' => 'Order #'. $order->getId(),
                         'additional_data' => '',
-                        'return_url' => 'http://demo.localhost/order?id='. $order->getId(),
-                        'cancel_url' => 'http://demo.localhost/cancel'
+                        'return_url' => 'http://'.$serverName.':'.$port.'/orders.php?id='. $order->getId(),
+                        'cancel_url' => 'http://'.$serverName.':'.$port.'/cancel.php'
                     ];
 
                     if ($type === 'zimple'){
